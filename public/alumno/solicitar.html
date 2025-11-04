@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Alumno — Solicitar acceso</title>
+    <link rel="stylesheet" href="/assets/css/base.css" />
+  </head>
+  <body class="centered">
+    <div class="card auth-card">
+      <h1>Solicitar acceso</h1>
+      <p>
+        Ingresa tu <b>número de control</b>. Te enviaremos una contraseña
+        temporal a tu correo <em>control@itcelaya.mx</em>.
+      </p>
+      <input id="control" class="inp" placeholder="Ej. 241260042" />
+      <button id="btn" class="btn btn-success">Enviar</button>
+      <div id="ok" class="form-msg success"></div>
+      <div id="err" class="form-msg error"></div>
+    </div>
+    <script type="module">
+      import { api } from "../assets/js/api.js";
+      const control = document.getElementById("control");
+      const ok = document.getElementById("ok");
+      const err = document.getElementById("err");
+
+      document.getElementById("btn").addEventListener("click", async () => {
+        ok.classList.remove("show");
+        err.classList.remove("show");
+        try {
+          const c = control.value.trim();
+          if (!/^[0-9]{2}[0-9]{2,3}[0-9]{4}$/.test(c))
+            throw new Error("Número de control inválido");
+          await api("/api/auth/alumnos/request", {
+            method: "POST",
+            body: { control: c },
+          });
+          ok.textContent = "Listo. Revisa tu correo institucional.";
+          ok.classList.add("show");
+        } catch (e) {
+          err.textContent = e.message || "No se pudo enviar la contraseña";
+          err.classList.add("show");
+        }
+      });
+    </script>
+  </body>
+</html>

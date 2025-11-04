@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Administrador — Ingresar</title>
+    <link rel="stylesheet" href="/assets/css/base.css" />
+  </head>
+  <body class="centered">
+    <div class="card auth-card">
+      <h1>Acceso de Administrador</h1>
+      <input id="email" class="inp" placeholder="admin@itcelaya.mx" />
+      <input id="pass" type="password" class="inp" placeholder="Contraseña" />
+      <button id="btn" class="btn btn-success">Entrar</button>
+      <div id="msg" class="form-msg error"></div>
+    </div>
+    <script type="module">
+      import { api } from "../assets/js/api.js";
+      const email = document.getElementById("email");
+      const pass = document.getElementById("pass");
+      const msg = document.getElementById("msg");
+      document.getElementById("btn").addEventListener("click", async () => {
+        msg.textContent = "";
+        try {
+          await api("/api/auth/login", {
+            method: "POST",
+            body: { email: email.value.trim(), password: pass.value },
+          });
+          const me = await api("/api/auth/me");
+          if (!me.auth || me.user.rol !== "ADMIN")
+            throw new Error("Tu cuenta no es de administrador.");
+          location.href = "/admin/";
+        } catch (e) {
+          msg.textContent = e.message || "No se pudo iniciar sesión";
+          msg.classList.add("show");
+        }
+      });
+    </script>
+  </body>
+</html>

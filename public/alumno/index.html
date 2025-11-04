@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Alumno — Inicio</title>
+    <link rel="stylesheet" href="/assets/css/base.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container row between middle">
+        <h1 class="title">Portal del Alumno</h1>
+        <div class="row middle gap-8">
+          <span id="resumen-usuario" class="muted"></span>
+          <button id="btn-cerrar-sesion" class="btn btn-danger">
+            Cerrar sesión
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <div class="card" style="max-width: 920px; margin: 24px auto">
+        <h2 id="saludo">Bienvenido</h2>
+        <p class="muted" id="instrucciones">
+          Aquí podrás contestar tu evaluación de Atributos de Egreso cuando esté
+          disponible.
+        </p>
+
+        <div class="row gap-8" style="margin-top: 16px">
+          <a class="btn btn-success" href="/alumno/encuesta.html"
+            >Comenzar evaluación</a
+          >
+          <a class="btn btn-outline" href="/">Volver al inicio</a>
+        </div>
+
+        <div
+          id="mensaje-error"
+          class="form-msg error"
+          style="margin-top: 16px"
+        ></div>
+      </div>
+    </main>
+
+    <script type="module">
+      import { api } from "../assets/js/api.js";
+
+      const saludoElemento = document.getElementById("saludo");
+      const resumenUsuarioElemento = document.getElementById("resumen-usuario");
+      const mensajeErrorElemento = document.getElementById("mensaje-error");
+      const botonCerrarSesion = document.getElementById("btn-cerrar-sesion");
+
+      // Guard de sesión: solo ALUMNO
+      try {
+        const sesion = await api("/api/auth/me");
+        if (!sesion.auth || sesion.user.rol !== "ALUMNO") {
+          window.location.href = "/alumno/login.html";
+          throw new Error("Sesión no válida");
+        }
+
+        // Pintar datos del usuario
+        const nombre = sesion.user.nombre || "Alumno";
+        const email = sesion.user.email || "";
+        saludoElemento.textContent = `¡Hola, ${nombre}!`;
+        resumenUsuarioElemento.textContent = email;
+      } catch (err) {
+        // Si algo falla, redirige al login
+        console.error(err);
+        mensajeErrorElemento.textContent =
+          "Tu sesión expiró. Vuelve a iniciar sesión.";
+        mensajeErrorElemento.classList.add("show");
+        setTimeout(() => (window.location.href = "/alumno/login.html"), 1500);
+      }
+
+      // Cerrar sesión
+      botonCerrarSesion.addEventListener("click", async () => {
+        try {
+          await api("/api/auth/logout", { method: "POST" });
+        } finally {
+          window.location.href = "/alumno/login.html";
+        }
+      });
+    </script>
+  </body>
+</html>

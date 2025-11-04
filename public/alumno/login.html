@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Alumno — Ingresar</title>
+    <link rel="stylesheet" href="/assets/css/base.css" />
+  </head>
+  <body class="centered">
+    <div class="card auth-card">
+      <h1>Acceso de Alumno</h1>
+      <input
+        id="email"
+        class="inp"
+        placeholder="correo (control@itcelaya.mx)"
+      />
+      <input id="pass" type="password" class="inp" placeholder="Contraseña" />
+      <button id="btn" class="btn btn-success">Entrar</button>
+      <p class="muted">
+        <a href="/alumno/solicitar.html">¿Primera vez? Solicitar acceso</a>
+      </p>
+      <div id="msg" class="form-msg error"></div>
+    </div>
+    <script type="module">
+      import { api } from "../assets/js/api.js";
+      const email = document.getElementById("email");
+      const pass = document.getElementById("pass");
+      const btn = document.getElementById("btn");
+      const msg = document.getElementById("msg");
+
+      btn.addEventListener("click", async () => {
+        msg.textContent = "";
+        try {
+          const r = await api("/api/auth/login", {
+            method: "POST",
+            body: { email: email.value.trim(), password: pass.value },
+          });
+          // valida rol
+          const me = await api("/api/auth/me");
+          if (!me.auth || me.user.rol !== "ALUMNO")
+            throw new Error("Tu cuenta no es de alumno.");
+          location.href = "/alumno/";
+        } catch (e) {
+          msg.textContent = e.message || "No se pudo iniciar sesión";
+          msg.classList.add("show");
+        }
+      });
+    </script>
+  </body>
+</html>
