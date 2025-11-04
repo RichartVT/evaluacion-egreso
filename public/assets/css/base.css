@@ -1,0 +1,349 @@
+/* ======= Tema claro (fondo blanco + botones verdes) ======= */
+:root {
+  --bg: #ffffff;
+  --card: #ffffff;
+  --text: #0f172a; /* gris muy oscuro */
+  --muted: #64748b; /* gris para textos secundarios */
+  --border: #e5e7eb; /* gris claro para bordes */
+  --accent: #22c55e; /* verde */
+  --accent-hover: #16a34a; /* verde (hover) */
+  --accent-press: #15803d; /* verde (active) */
+}
+
+/* Layout base */
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font: 16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Contenedor principal en tarjetas */
+.card {
+  max-width: 960px;
+  margin: 2rem auto;
+  padding: 1.25rem 1.5rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+}
+
+/* Topbar (si la usas en otras páginas) */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1rem;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Formularios */
+label {
+  display: block;
+  margin: 0.5rem 0;
+  color: var(--text);
+}
+input,
+select,
+button {
+  font: inherit;
+  padding: 0.55rem 0.7rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text);
+  outline: none;
+}
+input::placeholder {
+  color: #9ca3af;
+}
+
+/* Estados de foco */
+input:focus,
+select:focus,
+button:focus {
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25); /* anillo verde */
+  border-color: var(--accent);
+}
+
+/* Botones: verdes */
+button {
+  border-color: transparent;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.05s ease;
+}
+button:hover {
+  background: var(--accent-hover);
+}
+button:active {
+  background: var(--accent-press);
+  transform: translateY(1px);
+}
+
+/* Filas responsivas */
+.row {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+/* Tablas */
+.grid {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+.grid thead th {
+  font-weight: 600;
+  background: #f8fafc; /* encabezado muy claro */
+}
+.grid th,
+.grid td {
+  text-align: left;
+  padding: 0.55rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Utilidades */
+.hidden {
+  display: none;
+}
+
+/* Toast opcional si lo usas */
+.toast {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 22px;
+  padding: 0.6rem 0.9rem;
+  background: #111827;
+  color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== Modal ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: saturate(140%) blur(2px);
+}
+.modal {
+  width: min(560px, 92vw);
+  background: #fff;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  transform: translateY(8px);
+  opacity: 0;
+  animation: modal-pop 0.16s ease-out forwards;
+}
+.modal header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+.modal .content {
+  padding: 1rem 1.25rem;
+}
+.modal .actions {
+  padding: 0.9rem 1.25rem;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  border-top: 1px solid var(--border);
+}
+@keyframes modal-pop {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Botones (ya tenías verdes; agrego variante outline) */
+.btn {
+  padding: 0.55rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+.btn:hover {
+  background: var(--accent-hover);
+}
+.btn:active {
+  background: var(--accent-press);
+  transform: translateY(1px);
+}
+.btn-outline {
+  background: #fff;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-outline:hover {
+  background: #f8fafc;
+}
+
+.hidden {
+  display: none;
+}
+
+/* --- Botones por variante --- */
+button {
+  font: inherit;
+  padding: 0.55rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text);
+  cursor: pointer;
+}
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25);
+}
+
+.btn {
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  border-color: transparent;
+}
+.btn-primary:hover {
+  background: var(--accent-hover);
+}
+.btn-primary:active {
+  background: var(--accent-press);
+  transform: translateY(1px);
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: #fff;
+  border-color: transparent;
+}
+.btn-danger:hover {
+  background: #dc2626;
+}
+.btn-danger:active {
+  background: #b91c1c;
+  transform: translateY(1px);
+}
+
+.btn-outline {
+  background: #fff;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-outline:hover {
+  background: #f8fafc;
+}
+
+/* --- Modal (si ya lo tenías, no borres; esto complementa) --- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: saturate(140%) blur(2px);
+}
+.modal {
+  width: min(560px, 92vw);
+  background: #fff;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  transform: translateY(8px);
+  opacity: 0;
+  animation: modal-pop 0.16s ease-out forwards;
+}
+.modal header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+.modal .content {
+  padding: 1rem 1.25rem;
+}
+.modal .actions {
+  padding: 0.9rem 1.25rem;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  border-top: 1px solid var(--border);
+}
+@keyframes modal-pop {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.hidden {
+  display: none;
+}
+
+.badge-level {
+  display: inline-block;
+  min-width: 2rem;
+  text-align: center;
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #f1f5f9;
+  font-weight: 600;
+}
+
+.form-msg {
+  margin: 0.25rem 0 0;
+  font-size: 0.9rem;
+  min-height: 1.2em;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  display: none; /* se muestra con .show */
+}
+.form-msg.show {
+  display: block;
+}
+
+/* Variantes */
+.form-msg.success {
+  background: #ecfdf5;
+  border-color: #34d399;
+  color: #065f46;
+}
+.form-msg.error {
+  background: #fee2e2;
+  border-color: #f87171;
+  color: #7f1d1d;
+}
+.form-msg.warn {
+  background: #fef3c7;
+  border-color: #f59e0b;
+  color: #92400e;
+} /* amarillo */

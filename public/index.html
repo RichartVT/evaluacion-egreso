@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Evaluación de Atributos de Egreso</title>
+    <link rel="stylesheet" href="./assets/css/base.css" />
+  </head>
+  <body>
+    <main class="card">
+      <h1>Evaluación de Atributos de Egreso</h1>
+      <p>Prueba rápida: listar carreras desde la BD</p>
+      <button id="load">Cargar carreras</button>
+      <ul id="list"></ul>
+    </main>
+    <script type="module">
+      import { api } from "./assets/js/api.js";
+      const btn = document.getElementById("load");
+      const list = document.getElementById("list");
+      btn.onclick = async () => {
+        list.innerHTML = "<li>Cargando...</li>";
+        try {
+          const carreras = await api("/api/carreras");
+          list.innerHTML = carreras
+            .map((c) => `<li><b>${c.id_carrera}</b> — ${c.nom_carrera}</li>`)
+            .join("");
+        } catch (e) {
+          list.innerHTML = `<li style="color:#f66">${e.message}</li>`;
+        }
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Coordinación · Evaluación AE</title>
+    <link rel="stylesheet" href="../assets/css/base.css" />
+    <style>
+      /* estilos del navbar (ligeros) */
+      .nav {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 1rem;
+      }
+      .nav button {
+        background: #fff;
+      }
+      .nav .tab {
+        padding: 0.55rem 0.9rem;
+        border-radius: 8px 8px 0 0;
+        border: 1px solid var(--border);
+        border-bottom: none;
+      }
+      .nav .tab.active {
+        background: #f8fafc;
+        border-color: var(--accent);
+        color: #0f172a;
+        box-shadow: 0 -1px 0 var(--accent);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <header
+        style="display: flex; align-items: end; justify-content: space-between"
+      >
+        <h1 style="margin: 0.2rem 0 0">Panel del Coordinador</h1>
+        <div>
+          <label
+            >Carrera
+            <select id="career-select"></select>
+          </label>
+        </div>
+      </header>
+
+      <nav class="nav" id="coordinator-nav">
+        <button class="tab active" data-view="materias">Materias</button>
+        <button class="tab" data-view="atributos">Atributos de Egreso</button>
+        <button class="tab" data-view="criterios">Criterios</button>
+        <button class="tab" data-view="niveles">Niveles por Materia</button>
+      </nav>
+
+      <section id="view-root"></section>
+    </main>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
