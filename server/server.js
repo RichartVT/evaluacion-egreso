@@ -12,6 +12,7 @@ import atributosRouter from "./routes/atributos.js";
 import criteriosRouter from "./routes/criterios.js";
 import nivelesMateriaRouter from "./routes/niveles_materia.js";
 import carrerasRouter from "./routes/carreras.js"; // si no lo usas, puedes quitar esta línea
+import alumnoRouter from "./routes/alumno.js";
 
 // Middleware de autorización
 import { requireAuth } from "./middleware/requireAuth.js";
@@ -52,6 +53,8 @@ app.use(
 
 // (Opcional) Carreras pública para selects; si quieres protegerla, muévela arriba con requireAuth
 app.use("/api/carreras", carrerasRouter);
+
+app.use("/api/alumno", alumnoRouter);
 
 // Fallback simple (opcional)
 app.get("/coordinador/", (req, res) => {

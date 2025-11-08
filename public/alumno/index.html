@@ -19,67 +19,192 @@
       </div>
     </header>
 
-    <main class="container">
-      <div class="card" style="max-width: 920px; margin: 24px auto">
+    <main class="container" style="max-width: 960px">
+      <div class="card" style="margin: 24px auto">
         <h2 id="saludo">Bienvenido</h2>
-        <p class="muted" id="instrucciones">
-          Aquí podrás contestar tu evaluación de Atributos de Egreso cuando esté
-          disponible.
+        <p class="muted">
+          Aquí podrás contestar tu evaluación de Atributos de Egreso.
         </p>
 
-        <div class="row gap-8" style="margin-top: 16px">
-          <a class="btn btn-success" href="/alumno/encuesta.html"
-            >Comenzar evaluación</a
-          >
+        <!-- Registro por clave de materia -->
+        <div class="row middle gap-8" style="margin-top: 16px">
+          <input
+            id="inp-clave"
+            class="inp"
+            placeholder="Clave de materia (ej. SCD-1015)"
+            style="max-width: 220px"
+          />
+          <button id="btn-registrar" class="btn btn-success">
+            Registrar materia
+          </button>
           <a class="btn btn-outline" href="/">Volver al inicio</a>
         </div>
 
         <div
-          id="mensaje-error"
-          class="form-msg error"
-          style="margin-top: 16px"
+          id="msg"
+          class="form-msg"
+          style="margin-top: 12px; display: none"
         ></div>
+      </div>
+
+      <div
+        class="row"
+        style="gap: 16px; align-items: flex-start; margin-bottom: 32px"
+      >
+        <!-- Pendientes -->
+        <div class="card" style="flex: 1">
+          <h3>Materias registradas (pendientes)</h3>
+          <table class="table" id="tbl-pendientes">
+            <thead>
+              <tr>
+                <th>Clave</th>
+                <th>Nombre</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <p id="empty-pendientes" class="muted">
+            No tienes materias pendientes registradas.
+          </p>
+        </div>
+
+        <!-- Evaluadas -->
+        <div class="card" style="flex: 1">
+          <h3>Materias evaluadas</h3>
+          <table class="table" id="tbl-evaluadas">
+            <thead>
+              <tr>
+                <th>Clave</th>
+                <th>Nombre</th>
+                <th>Respuestas</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <p id="empty-evaluadas" class="muted">
+            Aún no has evaluado materias en el periodo.
+          </p>
+        </div>
       </div>
     </main>
 
     <script type="module">
       import { api } from "../assets/js/api.js";
 
-      const saludoElemento = document.getElementById("saludo");
-      const resumenUsuarioElemento = document.getElementById("resumen-usuario");
-      const mensajeErrorElemento = document.getElementById("mensaje-error");
-      const botonCerrarSesion = document.getElementById("btn-cerrar-sesion");
+      const saludoEl = document.getElementById("saludo");
+      const resumenEl = document.getElementById("resumen-usuario");
+      const logoutBtn = document.getElementById("btn-cerrar-sesion");
 
-      // Guard de sesión: solo ALUMNO
-      try {
-        const sesion = await api("/api/auth/me");
-        if (!sesion.auth || sesion.user.rol !== "ALUMNO") {
-          window.location.href = "/alumno/login.html";
-          throw new Error("Sesión no válida");
-        }
+      const inpClave = document.getElementById("inp-clave");
+      const btnRegistrar = document.getElementById("btn-registrar");
+      const msg = document.getElementById("msg");
 
-        // Pintar datos del usuario
-        const nombre = sesion.user.nombre || "Alumno";
-        const email = sesion.user.email || "";
-        saludoElemento.textContent = `¡Hola, ${nombre}!`;
-        resumenUsuarioElemento.textContent = email;
-      } catch (err) {
-        // Si algo falla, redirige al login
-        console.error(err);
-        mensajeErrorElemento.textContent =
-          "Tu sesión expiró. Vuelve a iniciar sesión.";
-        mensajeErrorElemento.classList.add("show");
-        setTimeout(() => (window.location.href = "/alumno/login.html"), 1500);
+      const tblPendBody = document.querySelector("#tbl-pendientes tbody");
+      const tblEvalBody = document.querySelector("#tbl-evaluadas tbody");
+      const emptyPend = document.getElementById("empty-pendientes");
+      const emptyEval = document.getElementById("empty-evaluadas");
+
+      // Guard de sesión ALUMNO
+      const me = await api("/api/auth/me");
+      if (!me.auth || me.user.rol !== "ALUMNO") {
+        location.href = "/alumno/login.html";
+        throw new Error("Sesión no válida");
+      }
+      saludoEl.textContent = `¡Hola, ${me.user.nombre || "Alumno"}!`;
+      resumenEl.textContent = me.user.email || "";
+
+      logoutBtn.addEventListener("click", async () => {
+        await api("/api/auth/logout", { method: "POST" });
+        location.href = "/alumno/login.html";
+      });
+
+      // Helpers UI
+      const showMsg = (text, type = "info") => {
+        msg.textContent = text;
+        msg.className = `form-msg ${type}`;
+        msg.style.display = "block";
+        setTimeout(() => {
+          msg.style.display = "none";
+        }, 5000);
+      };
+
+      function filaPendiente(m) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+        <td>${m.id_materia}</td>
+        <td>${m.nom_materia}</td>
+        <td><a class="btn btn-success" href="/alumno/encuesta.html?materia=${encodeURIComponent(
+          m.id_materia
+        )}">Responder</a></td>
+      `;
+        return tr;
+      }
+      function filaEvaluada(m) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+        <td>${m.id_materia}</td>
+        <td>${m.nom_materia}</td>
+        <td>${m.respuestas}</td>
+      `;
+        return tr;
       }
 
-      // Cerrar sesión
-      botonCerrarSesion.addEventListener("click", async () => {
+      async function cargarListas() {
+        const data = await api("/api/alumno/materias");
+        // Pendientes
+        tblPendBody.innerHTML = "";
+        if (data.pendientes.length) {
+          emptyPend.style.display = "none";
+          data.pendientes.forEach((m) =>
+            tblPendBody.appendChild(filaPendiente(m))
+          );
+        } else {
+          emptyPend.style.display = "block";
+        }
+        // Evaluadas
+        tblEvalBody.innerHTML = "";
+        if (data.evaluadas.length) {
+          emptyEval.style.display = "none";
+          data.evaluadas.forEach((m) =>
+            tblEvalBody.appendChild(filaEvaluada(m))
+          );
+        } else {
+          emptyEval.style.display = "block";
+        }
+      }
+
+      btnRegistrar.addEventListener("click", async () => {
+        const id = inpClave.value.trim().toUpperCase();
+        if (!/^[A-Z]{3}-\d{4}$/.test(id)) {
+          showMsg("Formato inválido. Usa algo como SCD-1015.", "warning");
+          return;
+        }
         try {
-          await api("/api/auth/logout", { method: "POST" });
-        } finally {
-          window.location.href = "/alumno/login.html";
+          const r = await api("/api/alumno/materias/registrar", {
+            method: "POST",
+            body: { id_materia: id },
+          });
+          if (r.estado === "pendiente") {
+            showMsg(
+              `Materia ${id} registrada. Puedes iniciar tu evaluación.`,
+              "success"
+            );
+            await cargarListas();
+          } else if (r.estado === "evaluada") {
+            showMsg(`La materia ${id} ya fue evaluada en el periodo.`, "info");
+            await cargarListas();
+          } else {
+            showMsg("Registro completado.", "success");
+            await cargarListas();
+          }
+          inpClave.value = "";
+        } catch (e) {
+          showMsg(e.message || "No se pudo registrar la materia", "error");
         }
       });
+
+      await cargarListas();
     </script>
   </body>
 </html>

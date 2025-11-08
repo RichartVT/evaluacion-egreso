@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Encuesta — Alumno</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/assets/css/base.css" />
+    <style>
+      .container {
+        max-width: 980px;
+        margin: 24px auto;
+        padding: 0 16px;
+      }
+      .card {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 16px;
+      }
+      .title {
+        font-size: 20px;
+        font-weight: 700;
+        margin: 0 0 6px;
+      }
+      .muted {
+        color: #6b7280;
+      }
+      .grupo {
+        margin: 18px 0 8px;
+      }
+      .criterio {
+        padding: 12px 0;
+        border-top: 1px dashed #e5e7eb;
+      }
+      .likert {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-top: 8px;
+      }
+      .badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 999px;
+        border: 1px solid #d1d5db;
+        background: #f9fafb;
+        font-size: 12px;
+      }
+      .alert {
+        padding: 10px 12px;
+        border-radius: 10px;
+        margin: 12px 0;
+      }
+      .alert-warn {
+        background: #fef3c7;
+        border: 1px solid #f59e0b;
+      }
+      .alert-ok {
+        background: #dcfce7;
+        border: 1px solid #22c55e;
+      }
+      .btn {
+        border: 0;
+        border-radius: 10px;
+        padding: 10px 14px;
+        cursor: pointer;
+      }
+      .btn-green {
+        background: #16a34a;
+        color: #fff;
+      }
+      .btn-gray {
+        background: #e5e7eb;
+      }
+      .btn-red {
+        background: #ef4444;
+        color: #fff;
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div>
+          <div class="title">Encuesta de Atributos de Egreso</div>
+          <div id="materia-head" class="muted">Materia: —</div>
+        </div>
+        <div>
+          <a class="btn btn-gray" href="/alumno/">Volver</a>
+        </div>
+      </div>
+
+      <div id="msg" class="alert" style="display: none"></div>
+
+      <form id="form-encuesta" class="card">
+        <div id="bloques"></div>
+        <div style="display: flex; gap: 10px; margin-top: 16px">
+          <button type="submit" class="btn btn-green">Enviar respuestas</button>
+          <a class="btn btn-gray" href="/alumno/">Cancelar</a>
+        </div>
+      </form>
+    </div>
+
+    <script type="module" src="/assets/js/api.js"></script>
+    <script type="module" src="/alumno/encuesta.js"></script>
+  </body>
+</html>
