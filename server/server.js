@@ -14,6 +14,12 @@ import nivelesMateriaRouter from "./routes/niveles_materia.js";
 import carrerasRouter from "./routes/carreras.js"; // si no lo usas, puedes quitar esta línea
 import alumnoRouter from "./routes/alumno.js";
 
+// Rutas del admin
+import adminEstudiantesRouter from "./routes/admin/estudiantes.js";
+import adminCarrerasRouter from "./routes/admin/carreras.js";
+import adminUsuariosRouter from "./routes/admin/usuarios.js";
+import adminReportesRouter from "./routes/admin/reportes.js";
+
 // Middleware de autorización
 import { requireAuth } from "./middleware/requireAuth.js";
 
@@ -55,6 +61,12 @@ app.use(
 app.use("/api/carreras", carrerasRouter);
 
 app.use("/api/alumno", alumnoRouter);
+
+// RUTAS DEL ADMIN
+app.use("/api/admin/estudiantes", adminEstudiantesRouter);
+app.use("/api/admin/usuarios", adminUsuariosRouter);
+app.use("/api/admin/carreras", adminCarrerasRouter);
+app.use("/api/admin/reportes", adminReportesRouter);
 
 // Fallback simple (opcional)
 app.get("/coordinador/", (req, res) => {

@@ -1,0 +1,260 @@
+/* CSS para Formularios Inteligentes */
+/* Agregar a: public/assets/css/smart-forms.css */
+
+/* Contenedor de sugerencias */
+.smart-suggestions {
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-height: 240px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+/* Items de sugerencias */
+.suggestion-item {
+  padding: 0.75rem;
+  cursor: pointer;
+  border-bottom: 1px solid #f1f5f9;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.suggestion-item:last-child {
+  border-bottom: none;
+}
+
+.suggestion-item:hover {
+  background: #f8fafc;
+  border-left: 3px solid #16a34a;
+}
+
+/* Resaltado de coincidencias */
+.suggestion-item mark {
+  background: #fef3c7;
+  padding: 0.1rem 0.2rem;
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+/* Mensajes de validación */
+.validation-message {
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  background: #fee2e2;
+  color: #991b1b;
+  border-left: 3px solid #ef4444;
+}
+
+.validation-message.success {
+  background: #dcfce7;
+  color: #166534;
+  border-left-color: #16a34a;
+}
+
+/* Mensaje de éxito temporal */
+.success-message {
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  color: #16a34a;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Ayuda contextual */
+.contextual-help {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border: 1px solid #16a34a;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.contextual-help::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #16a34a, #059669);
+}
+
+/* Inputs mejorados para smart forms */
+.smart-form input[type="text"],
+.smart-form textarea {
+  transition: all 0.2s ease;
+  border: 2px solid #e5e7eb;
+}
+
+.smart-form input[type="text"]:focus,
+.smart-form textarea:focus {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+  transform: translateY(-1px);
+}
+
+/* Indicador de campo inteligente */
+.smart-field::after {
+  content: '🤖';
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.875rem;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Indicador de plantilla aplicada */
+.template-applied {
+  background: linear-gradient(135deg, #f0fdf4 0%, white 100%);
+  border-color: #16a34a !important;
+}
+
+.template-applied::after {
+  content: '✅';
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #16a34a;
+  font-size: 0.875rem;
+  pointer-events: none;
+}
+
+/* Categorías de sugerencias */
+.suggestion-category {
+  background: #f8fafc;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #374151;
+  border-bottom: 1px solid #e5e7eb;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Iconos de tipo de sugerencia */
+.suggestion-icon {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+/* Contador de caracteres inteligente */
+.char-counter {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+  text-align: right;
+}
+
+.char-counter.warning {
+  color: #ea580c;
+}
+
+.char-counter.error {
+  color: #ef4444;
+}
+
+/* Sugerencias de autocompletado con teclado */
+.suggestion-item.highlighted {
+  background: #f0fdf4;
+  border-left: 3px solid #16a34a;
+}
+
+/* Animaciones suaves */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.smart-suggestions {
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.template-applied {
+  animation: pulse 0.5s ease-in-out;
+}
+
+/* Estados responsive */
+@media (max-width: 768px) {
+  .smart-suggestions {
+    max-height: 180px;
+  }
+  
+  .suggestion-item {
+    padding: 0.625rem;
+  }
+  
+  .contextual-help {
+    padding: 0.75rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Estado de carga para sugerencias */
+.suggestions-loading {
+  padding: 1rem;
+  text-align: center;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.suggestions-loading::before {
+  content: '🤖 ';
+  animation: pulse 1s infinite;
+}
+
+/* Empty state */
+.no-suggestions {
+  padding: 1rem;
+  text-align: center;
+  color: #9ca3af;
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
+/* Shortcut hints */
+.shortcut-hint {
+  font-size: 0.7rem;
+  color: #9ca3af;
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.kbd {
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 3px;
+  padding: 0.1rem 0.3rem;
+  font-family: monospace;
+  font-size: 0.7rem;
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Panel de Administración - Sistema de Evaluación de Atributos</title>
+    <link rel="stylesheet" href="../assets/css/base.css" />
+    <link rel="stylesheet" href="../assets/css/admin.css" />
+  </head>
+  <body>
+    <div class="admin-container">
+      <!-- Header principal -->
+      <header class="admin-header">
+        <h1>Panel de Administración</h1>
+        <p>
+          Sistema de Evaluación de Atributos de Egreso - Instituto Tecnológico
+          de Celaya
+        </p>
+        <button id="logout-btn" class="logout-btn btn btn-outline">
+          Cerrar Sesión
+        </button>
+      </header>
+
+      <!-- Navegación por tabs -->
+      <nav class="admin-nav" id="admin-nav">
+        <button class="admin-tab active" data-view="dashboard">
+          📊 Dashboard
+        </button>
+        <button class="admin-tab" data-view="usuarios">👥 Usuarios</button>
+        <button class="admin-tab" data-view="carreras">🎓 Carreras</button>
+        <button class="admin-tab" data-view="estudiantes">
+          👨‍🎓 Estudiantes
+        </button>
+        <button class="admin-tab" data-view="reportes">📈 Reportes</button>
+        <button class="admin-tab" data-view="sistema">⚙️ Sistema</button>
+      </nav>
+
+      <!-- Área de contenido principal -->
+      <main class="admin-content">
+        <div id="view-root">
+          <!-- El contenido se carga dinámicamente aquí -->
+        </div>
+      </main>
+    </div>
+
+    <!-- Modal de confirmación reutilizable -->
+    <div id="confirm-modal" class="modal-overlay hidden">
+      <div class="modal">
+        <header>
+          <h3 id="confirm-title">Confirmar acción</h3>
+        </header>
+        <div class="content" id="confirm-content">
+          ¿Estás seguro de realizar esta acción?
+        </div>
+        <div class="actions">
+          <button class="btn btn-outline" id="confirm-cancel">Cancelar</button>
+          <button class="btn btn-danger" id="confirm-ok">Confirmar</button>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

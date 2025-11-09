@@ -2,60 +2,129 @@
 <html lang="es">
   <head>
     <meta charset="utf-8" />
-    <title>Coordinación · Evaluación AE</title>
+    <title>Panel del Coordinador · Evaluación AE</title>
     <link rel="stylesheet" href="../assets/css/base.css" />
-    <style>
-      /* estilos del navbar (ligeros) */
-      .nav {
-        display: flex;
-        gap: 0.5rem;
-        flex-wrap: wrap;
-        border-bottom: 1px solid var(--border);
-        margin-bottom: 1rem;
-      }
-      .nav button {
-        background: #fff;
-      }
-      .nav .tab {
-        padding: 0.55rem 0.9rem;
-        border-radius: 8px 8px 0 0;
-        border: 1px solid var(--border);
-        border-bottom: none;
-      }
-      .nav .tab.active {
-        background: #f8fafc;
-        border-color: var(--accent);
-        color: #0f172a;
-        box-shadow: 0 -1px 0 var(--accent);
-      }
-    </style>
+    <link rel="stylesheet" href="../assets/css/dashboard-coordinador.css" />
+    <link rel="stylesheet" href="../assets/css/smart-forms.css" />
   </head>
   <body>
-    <main class="card">
-      <header
-        style="display: flex; align-items: end; justify-content: space-between"
-      >
-        <button id="logout-btn" class="btn btn-outline">Salir</button>
-
-        <h1 style="margin: 0.2rem 0 0">Panel del Coordinador</h1>
-        <div>
-          <label
-            >Carrera
-            <select id="career-select"></select>
-          </label>
+    <div class="dashboard-container">
+      <!-- Header del Dashboard -->
+      <div class="dashboard-header">
+        <div class="dashboard-header-main">
+          <h1 class="dashboard-title" id="dashboard-title">
+            Panel del Coordinador
+          </h1>
+          <div class="dashboard-actions">
+            <button class="dashboard-btn" id="export-btn">📊 Exportar</button>
+            <button class="dashboard-btn primary" id="new-btn">+ Nuevo</button>
+            <button class="dashboard-btn outline" id="logout-btn">Salir</button>
+          </div>
         </div>
-      </header>
 
-      <nav class="nav" id="coordinator-nav">
-        <button class="tab active" data-view="materias">Materias</button>
-        <button class="tab" data-view="atributos">Atributos de Egreso</button>
-        <button class="tab" data-view="criterios">Criterios</button>
-        <button class="tab" data-view="niveles">Niveles por Materia</button>
-      </nav>
+        <!-- Selector de carrera -->
+        <div class="career-selector">
+          <label for="career-select">📚 Carrera:</label>
+          <select id="career-select" class="career-select">
+            <option value="">Cargando...</option>
+          </select>
+        </div>
+      </div>
 
-      <section id="view-root"></section>
-    </main>
+      <!-- Métricas del Dashboard -->
+      <div class="dashboard-stats" id="dashboard-stats">
+        <div class="stat-card loading">
+          <div class="stat-value">
+            <div class="loading-spinner"></div>
+          </div>
+          <div class="stat-label">Materias activas</div>
+        </div>
+        <div class="stat-card loading">
+          <div class="stat-value">
+            <div class="loading-spinner"></div>
+          </div>
+          <div class="stat-label">Atributos de egreso</div>
+        </div>
+        <div class="stat-card loading">
+          <div class="stat-value">
+            <div class="loading-spinner"></div>
+          </div>
+          <div class="stat-label">Criterios definidos</div>
+        </div>
+        <div class="stat-card loading">
+          <div class="stat-value">
+            <div class="loading-spinner"></div>
+          </div>
+          <div class="stat-label">Completitud</div>
+        </div>
+      </div>
 
-    <script type="module" src="./main.js"></script>
+      <!-- Navegación del Dashboard -->
+      <div class="dashboard-nav">
+        <div class="dashboard-nav-grid" id="dashboard-nav">
+          <a href="#" class="nav-card active" data-view="materias">
+            <div class="nav-card-icon">📚</div>
+            <div class="nav-card-content">
+              <div class="nav-card-title">Vista Integrada</div>
+              <div class="nav-card-desc">
+                Gestión completa de materias y atributos
+              </div>
+            </div>
+          </a>
+          <a href="#" class="nav-card" data-view="atributos">
+            <div class="nav-card-icon">🎯</div>
+            <div class="nav-card-content">
+              <div class="nav-card-title">Atributos de Egreso</div>
+              <div class="nav-card-desc">
+                Administrar competencias de graduación
+              </div>
+            </div>
+          </a>
+          <a href="#" class="nav-card" data-view="criterios">
+            <div class="nav-card-icon">📋</div>
+            <div class="nav-card-content">
+              <div class="nav-card-title">Criterios de Evaluación</div>
+              <div class="nav-card-desc">Definir parámetros y escalas</div>
+            </div>
+          </a>
+          <a href="#" class="nav-card" data-view="niveles">
+            <div class="nav-card-icon">🎚️</div>
+            <div class="nav-card-content">
+              <div class="nav-card-title">Niveles por Materia</div>
+              <div class="nav-card-desc">Mapeo de atributos y materias</div>
+            </div>
+          </a>
+          <a href="#" class="nav-card" data-view="reportes">
+            <div class="nav-card-icon">📊</div>
+            <div class="nav-card-content">
+              <div class="nav-card-title">Reportes y Análisis</div>
+              <div class="nav-card-desc">Métricas y evaluaciones</div>
+            </div>
+          </a>
+          <a href="#" class="nav-card" data-view="configuracion">
+            <div class="nav-card-icon">⚙️</div>
+            <div class="nav-card-content">
+              <div class="nav-card-title">Configuración</div>
+              <div class="nav-card-desc">Preferencias y ajustes</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Área de contenido -->
+      <div class="dashboard-content">
+        <section id="view-root">
+          <div class="welcome-message">
+            <h2>¡Bienvenido al Panel del Coordinador!</h2>
+            <p>
+              Selecciona una sección para comenzar a trabajar con la evaluación
+              de atributos de egreso.
+            </p>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script type="module" src="./dashboard.js"></script>
   </body>
 </html>

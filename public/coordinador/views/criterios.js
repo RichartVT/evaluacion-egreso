@@ -52,7 +52,7 @@ export async function renderCoordinatorCriteria({ root, selectedCareerId }) {
       <table class="grid">
         <thead>
           <tr>
-            <th>Atrib</th><th>Criterio</th><th>Descripción</th>
+            <th>Atributo</th><th>Nombre Atributo</th><th>Criterio</th><th>Descripción</th>
             <th>N1</th><th>N2</th><th>N3</th><th>N4</th><th></th>
           </tr>
         </thead>
@@ -78,6 +78,7 @@ export async function renderCoordinatorCriteria({ root, selectedCareerId }) {
         (c) => `
       <tr>
         <td>${c.id_atributo}</td>
+        <td>${c.nom_atributo}</td>
         <td>${c.id_criterio}</td>
         <td>${c.descripcion}</td>
         <td>${c.des_n1}</td>
