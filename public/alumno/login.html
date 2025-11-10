@@ -5,24 +5,185 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Alumno — Ingresar</title>
     <link rel="stylesheet" href="/assets/css/base.css" />
+    <style>
+      /* FONDO VERDE TECNM CELAYA */
+      body {
+        background: linear-gradient(135deg, #0a7a3d 0%, #003300 100%);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #0a7a3d;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* ENGRANAJE DE FONDO */
+      body::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 800px;
+        height: 800px;
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%234CAF50" opacity="0.12" d="M50 10c-22.091 0-40 17.909-40 40s17.909 40 40 40 40-17.909 40-40-17.909-40-40-40zm0 75c-19.33 0-35-15.67-35-35s15.67-35 35-35 35 15.67 35 35-15.67 35-35 35zm0-65c-13.807 0-25 11.193-25 25s11.193 25 25 25 25-11.193 25-25-11.193-25-25-25zm0 45c-11.046 0-20-8.954-20-20s8.954-20 20-20 20 8.954 20 20-8.954 20-20 20zm0-35c-8.284 0-15 6.716-15 15s6.716 15 15 15 15-6.716 15-15-6.716-15-15-15z"/></svg>')
+          no-repeat center center;
+        background-size: 600px;
+        transform: translate(-50%, -50%);
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      /* TARJETA MÁS GRANDE Y CENTRADA */
+      .auth-card {
+        background: white;
+        padding: 3.5rem 3rem;
+        border-radius: 20px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+        width: 100%;
+        max-width: 500px;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+        border: 1px solid rgba(10, 122, 61, 0.1);
+      }
+
+      /* LOGOS CENTRADOS Y GRANDES */
+      .logo-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+      }
+
+      .logo-tecnm {
+        height: 80px;
+      }
+
+      .logo-celaya {
+        height: 90px;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #0a7a3d;
+        margin: 0 0 2.5rem;
+      }
+
+      .inp {
+        width: 100%;
+        padding: 0.9rem 1.1rem;
+        border: 1.5px solid #a8e6a1;
+        border-radius: 10px;
+        font-size: 1.05rem;
+        background: #f8fff8;
+        box-sizing: border-box;
+        margin-bottom: 1.3rem;
+      }
+
+      .inp:focus {
+        outline: none;
+        border-color: #4caf50;
+        box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.25);
+      }
+
+      .btn-success {
+        background: #0a7a3d;
+        color: white;
+        border: none;
+        padding: 1rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 10px;
+        cursor: pointer;
+        width: 100%;
+        margin: 1.5rem 0;
+        transition: all 0.3s ease;
+      }
+
+      .btn-success:hover {
+        background: #006400;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(10, 122, 61, 0.4);
+      }
+
+      .muted {
+        margin: 1.5rem 0 0;
+        font-size: 0.9rem;
+        color: #2e7d32;
+      }
+
+      .muted a {
+        color: #4caf50;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .muted a:hover {
+        text-decoration: underline;
+      }
+
+      .form-msg {
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        color: #d32f2f;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      .form-msg.show {
+        opacity: 1;
+      }
+    </style>
   </head>
-  <body class="centered">
+  <body>
     <div class="card auth-card">
+      <!-- LOGOS OFICIALES -->
+      <div class="logo-container">
+        <img src="/images/logo.png" alt="TecNM" class="logo-tecnm" />
+        <!-- <img src="/images/logo-celaya.png" alt="Celaya" class="logo-celaya" /> -->
+      </div>
+
+      <!-- TÍTULO -->
       <h1>Acceso de Alumno</h1>
+
+      <!-- FORMULARIO -->
       <input
         id="email"
         class="inp"
         placeholder="correo (control@itcelaya.mx)"
+        type="email"
+        required
       />
-      <input id="pass" type="password" class="inp" placeholder="Contraseña" />
+      <input
+        id="pass"
+        type="password"
+        class="inp"
+        placeholder="Contraseña"
+        required
+      />
       <button id="btn" class="btn btn-success">Entrar</button>
+
+      <!-- LINK SOLICITAR ACCESO -->
       <p class="muted">
         <a href="/alumno/solicitar.html">¿Primera vez? Solicitar acceso</a>
       </p>
+
+      <!-- MENSAJE DE ERROR -->
       <div id="msg" class="form-msg error"></div>
     </div>
+
+    <!-- SCRIPT CON RUTA CORRECTA -->
     <script type="module">
-      import { api } from "../assets/js/api.js";
+      import { api } from "/assets/js/api.js";
+
       const email = document.getElementById("email");
       const pass = document.getElementById("pass");
       const btn = document.getElementById("btn");
@@ -30,15 +191,19 @@
 
       btn.addEventListener("click", async () => {
         msg.textContent = "";
+        msg.classList.remove("show");
+
         try {
           const r = await api("/api/auth/login", {
             method: "POST",
             body: { email: email.value.trim(), password: pass.value },
           });
-          // valida rol
+
           const me = await api("/api/auth/me");
-          if (!me.auth || me.user.rol !== "ALUMNO")
+          if (!me.auth || me.user.rol !== "ALUMNO") {
             throw new Error("Tu cuenta no es de alumno.");
+          }
+
           location.href = "/alumno/";
         } catch (e) {
           msg.textContent = e.message || "No se pudo iniciar sesión";
